@@ -1,23 +1,37 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
-
+import Home from "@/views/Home.vue"
+import Classify from "@/views/Classify.vue"
+import Shopping from "@/views/Shopping.vue"
+import Search from "@/views//Search.vue"
 Vue.use(VueRouter);
-
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
+VueRouter.prototype.back = false
+VueRouter.prototype.goBack = function goBack() {
+  this.back = true,
+    this.go(-1)
+}
+const routes = [{
+    path: "/home",
     component: Home,
+    children: [{
+      path: "classify",
+      component: Classify,
+      name: "classify",
+    }, {
+      path: "shopping",
+      component: Shopping
+    }]
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: "/search",
+    component: Search,
+    name: "search",
   },
+  {
+    path: "*",
+    redirect: "/home/classify"
+  }
+
 ];
 
 const router = new VueRouter({
